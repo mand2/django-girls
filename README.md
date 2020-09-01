@@ -1,5 +1,9 @@
 # 장고 프로젝트 1
 
+장고걸즈 튜토리얼 기본편 [주소](https://tutorial.djangogirls.org/ko/)
+
+<br>
+
 ### 환경설정
 IDE : pycharm 2019.03
 
@@ -37,7 +41,7 @@ django-girls
 - `settings.py`: 웹사이트 설정이 있는 파일입니다.
 
 - `urls.py`: urlresolver가 사용하는 패턴 목록을 포함하고 있습니다. \
-우편배달부(`urls.py`)는 어느 곳(패턴 목록)으로 편지를 배달해야 하는지 판단해야 한다. \ 
+우편배달부(`urls.py`)는 어느 곳(패턴 목록)으로 편지를 배달해야 하는지 판단해야 한다. \
 지금 그 파일들을 수정하지 않을 거니 무시하세요. 실수로 파일을 지우지 않게 조심하세요!
 
 
@@ -46,7 +50,7 @@ django-girls
 > `django-girls` 에서 `mysite`로 명칭 변경
 
 
-#### 설정 변경
+#### 1. 설정 변경
 `mysite/settings.py` 타임존 설정. 웬만하면 UTC로 세팅하면 좋겠지만.. 일단 튜토리얼대로~👀
 
 💥 주의사항
@@ -55,15 +59,15 @@ django-girls
 DEBUG = True
 ALLOWED_HOSTS = []
 ``` 
-배포 시 `ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']`로 세팅할 것.
+배포 시 `ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']`로 세팅할 것. \
 `DEBUG = false`를 해야할 지는 모르겠음
 
-#### DB
+#### 2. DB
 이미 내장되어 있는 `sqlite3` 사용.
 
 <br>
 
-#### 모델 생성
+#### 3. 모델 생성
 1. 모델용 app 생성 (blog 로 칭함.)
 ```shell script
 python manage.py startapp blog
@@ -82,9 +86,13 @@ author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 - 다대일 관계에서 사용됨. 
 - `to`, `on_delete` 인자는 필수로 있어야 함.
 - 어떤 모델을 사용할지 모르겠다면 모델명을 직접 입력해도 된다.
-- **`ForeignKey.swappable` = true 인 상태**라면 settings.AUTH_USER_MODEL 의 현재 값에 일치하는 모델이라면, \
-외래키가 세팅되는 방식은 migration이 세팅의 참조값(== 간접으로 참조한다)을 사용한다는 점임. \
-`false` 인 경우, 모델을 직접 참조함. 함부로 false 세팅하지 말 것. user가 커스텀 한, 자신이 지원 가능한 모델만 사용 가능함. \
+- 외래키가 세팅되는 방식은 `ForeignKey.swappable`에 따라 다르다. 직접 참조 / 간접 참조.
+  - 간접참조: `true` 인 경우. \
+  외래키가 settings.AUTH_USER_MODEL 의 현재 값에 일치하는 모델이라면, \
+migration이 세팅의 참조값(== 간접으로 참조한다)을 사용한다는 점임. 
+<br>
+
+  - 직접참조: `false` 인 경우. 모델을 직접 참조함. 함부로 false 세팅하지 말 것. user가 커스텀 한, 자신이 지원 가능한 모델만 사용 가능함. \
 그 외의 모델은 에러. 항상 swapped 된 모델을 참조한다면, swappable 값을 false로 세팅해도 됨.
 - `on_delete` 에 가능한 값들
     - CASCADE
@@ -95,7 +103,7 @@ author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     - DO_NOTHING
 
 
-#### 모델 테이블 생성
+#### 4. 모델 테이블 생성
 `python manage.py makemigrations blog` : 마이그레이션 준비
 
 `python manage.py migrate blog` : 마이그레이션 실행. 실제 DB에 모델 추가 반영.
